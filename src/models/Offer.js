@@ -2,30 +2,38 @@ import mongoose from "mongoose";
 
 const offerSchema = new mongoose.Schema({
     loan: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Loan",
         required: true,
+    },
+    type: {
+        type: String,
+        enum: ['loan', 'extend'],
+        default: 'loan',
     },
     principal: {
         type: Number,
+        required: true,
     },
     apr: {
         type: Number,
+        required: true,
     },
-    borrower: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+    term: {
+        type: Number,
+        required: true,
     },
     lender: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
     },
     status: {
         type: String,
-        enum: ['pending', 'on-loan', 'overdue', 'completed', 'cancelled'],
+        enum: ['pending', 'accepted'],
         default: 'pending',
         required: true
     },
-
 }, {
     timestamps: true
 })
