@@ -1,74 +1,51 @@
 import userService from "../services/UserService.js";
-
+import Loan from "../models/Loan.js";
 class UserController {
-    constructor(userService) {
-        this.userService = userService;
-    }    
+    // [GET] /api/users/lends
+    getMyLend = async (req, res, next) => {
+        const {
+            status
+        } = req.query;
 
-    // //GET /api/users/tx
-    // getMyTx = async (req, res, next) => {
-    //     const {
-    //         fromValueUp, 
-    //         fromValueDown, 
-    //         toValueUp, 
-    //         toValueDown, 
-    //     } = req.query;
-    //     let {
+        try {
+            const myLend = await Loan.find({lender: req.user.id});
+            res.status(200).json(myLend);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // [GET] /api/users/borrow
+    getMyBorrow = async (req, res, next) => {
+        try {
+            const myBorrow = await Loan.find({borrower: req.user.id});
+            res.status(200).json(myBorrow);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // getInfoUser = async (req, res, next) => {
+    //     try {
+    //         const lendsInProgress = await Loan.find({lender: req.user.id, status: ["pending", "on-loan", "overdue"]});
+    //         const lendsCompleted = await Loan.find({lender: req.user.id, status: "completed"});
             
-    //     } = req.query;
+    //         const borrowsPending = await Loan.find({borrower: req.user.id, status: ["on-loan", "pending"]});
+    //         const borrowsCompleted = await Loan.find({borrower: req.user.id, status: "completed"});
 
-    //     try {
-    //         if(fromValueUp < fromValueDown || toValueUp < toValueDown) {
-    //             res.status(400);
-    //             return next(new Error('Invalid filter'));
-    //         }
+
+    //         const totalLendInProgress = lendsInProgress.reduce((total, lend) => total + lend.amount, 0) + lendsCompleted.reduce((total, lend) => total + lend.amount, 0);
             
-    //         const myTx = await this.userService.getMyTx(
-    //             req.user.id,
-    //             req.query
-    //         );
-
-    //         res.status(200).json(myTx);
+            
+            
+    //         const totalBorrow = borrowsPending.length + borrowsCompleted.length;
     //     } catch (error) {
     //         next(error)
     //     }
     // }
 
-    // //[GET] /api/users/nft
-    // getMyNFT = async (req, res, next) => {
-    //     try {
-    //         const myNFT = await this.userService.getMyNFT(req.user.id, req.query);
-    //         res.status(200).json(myNFT)
-    //     } catch (error) {
-    //         if(error.statusCode) {
-    //             res.status(error.statusCode);
-    //             return next(error.error);
-    //         }
-    //         next(error)
-    //     }
-    // }
 
-    // //[GET] /api/users/recently_transact
-    // getUsersRecentlyTransacted = async (req, res, next) => {
-    //     try {
-    //         const user = req.user;
-    //         const recently_users = await this.userService.getUsersRecentlyTransacted(user.id);
-    //         res.status(200).json(recently_users);
-    //     } catch (error) {
-    //         next(error);
-    //     } 
-    // }
 
-    // //[GET] /api/users/mostly_transacted
-    // getUsersMostlyTransacted = async (req, res, next) => {
-    //     try {
-    //         const user = req.user;
-    //         const mostly_users = await this.userService.getUsersMostlyTransacted(user.id);
-    //         res.status(200).json(mostly_users);
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
 }
 
 export default new UserController(userService)

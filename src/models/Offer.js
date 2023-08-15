@@ -39,4 +39,4 @@ const offerSchema = new mongoose.Schema({
 })
 
 const Offer = mongoose.model('Offer', OfferSchema)
-export default Loan
+export default Offer

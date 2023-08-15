@@ -1,59 +1,55 @@
+
+import Loan from "../models/Loan";
 class LoanService {
     getAllLoanPending = async () => {
-        const {
-            fromTokenId,
-            fromValueUp,
-            fromValueDown,
+        const allLoanPending = await Loan.find({status: 'pending'})
+        const length = allLoanPending.length;
+        return allLoanPending
+    }
 
-            toTokenId,
-            toValueUp,
-            toValueDown,
-
-            network,
-            page
-        } = filter;
+    getStatistics = async () => {
+        const allLoanCompleted = await Loan.find({status: 'completed'})
+        const numLoansPending = await Loan.countDocuments({status: 'pending'})
+        const numLoansCompleted = await Loan.countDocuments({status: 'completed'})
 
 
-        const filterQuery = {
-            'fromValue.amount': {
-                $gte: fromValueDown,
-                $lte: fromValueUp
-            },
+        const totalAmount = allLoanCompleted.length === 0 ? 0 :
+            allLoanCompleted.reduce((acc, loan) => {
+                return acc + loan.amount
+            })
 
-            'toValue.amount': {
-                $gte: toValueDown,
-                $lte: toValueUp
-            },
-            transactionType: 'exchange',
+        const totalInterest = allLoanCompleted.length === 0 ? 0 :
+            allLoanCompleted.reduce((acc, loan) => {
+                return acc + loan.repayment
+            })
+        return {
+            totalAmount,
+            totalInterest,
+            numLoansPending,
+            numLoansCompleted
+        }
+    }
+
+    createLoan = async (body) => {
+        const newLoan = new Loan({
+            ...body,
             status: 'pending'
-        };
+        })
+        await newLoan.save()
+        return newLoan
+    }
 
-        if(fromTokenId) filterQuery['fromValue.token'] = fromTokenId;
-        if(toTokenId) filterQuery['toValue.token'] = toTokenId;
-
-        let allExchangeTx = await getAllBeforePopulate(Transaction, filterQuery, null, {}).populate([
-            {path: 'from', select: '_id address'},
-            {path: 'to', select: '_id address'},
-            {path: 'fromValue.token', select: '-createdAt -updatedAt -__v'},
-            {path: 'toValue.token', select: '-createdAt -updatedAt -__v'},
-        ])
-        .sort('-createdAt');
-
-        const from = (page - 1) * PAGE_SIZE;
-        const to = from + PAGE_SIZE;
-
-        allExchangeTx = allExchangeTx.filter(tx => {
-            if(network > 0) {
-                return tx.fromValue.token.network === network && tx.toValue.token.network === network;
+    finalizeLoan = async (body) => {
+        let loan = await Loan.findOneAndUpdate(
+            {
+                _id: body.idLoan
+            }, 
+            {
+                status: 'completed',
             }
-            if(network === 0) {
-                return tx.fromValue.token.network !== tx.toValue.token.network;
-            }
-            return true;
-        }).slice(from, to);
-
-        console.log(allExchangeTx.length);
-
-        return allExchangeTx;
+        )
+        return loan;
     }
 }
+
+export default new LoanService()
