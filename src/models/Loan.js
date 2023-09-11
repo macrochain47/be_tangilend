@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const loanSchema = new mongoose.Schema({
-    evaluation: {
+    valuation: {
         type: Number,
         required: true,
     },
@@ -13,7 +13,7 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    term: {
+    duration: {
         type: Number,
         required: true,
     },

@@ -9,7 +9,7 @@ class AuthService {
 
     register = async(address) => {
         const newUser = await create(User, {
-            
+            address
         });
         return newUser;
     }
