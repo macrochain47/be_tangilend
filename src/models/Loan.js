@@ -1,12 +1,29 @@
 import mongoose from "mongoose";
 
 const loanSchema = new mongoose.Schema({
+    nft: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "NFT",
+        required: true,
+    },
+    loanID: {
+        type: String,
+        required: true,
+    },
     valuation: {
         type: Number,
         required: true,
     },
     principal: {
         type: Number,
+        required: true,
+    },
+    principalType: {
+        type: String,
+        required: true,
+    },
+    principalAddress: {
+        type: String,
         required: true,
     },
     apr: {

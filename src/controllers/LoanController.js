@@ -1,5 +1,6 @@
 import LoanService from "../services/LoanService";
 import Loan from "../models/Loan";
+import NFT from "../models/NFT";
 class LoanController {
     getAllLoanPending = async(req, res, next)  => {
         try {
@@ -18,30 +19,48 @@ class LoanController {
 
     createLoan = async(req, res, next)  => {
         const {
+            nftID,
+            loanID,
             valuation,
             principal,
+            principalType,
+            principalAddress,
             apr,
             duration,
         } = req.body
         
         const user = req.user;
         console.log(user)
+        if (!valuation || !principal || !apr || !duration){
+            res.status(400);
+            return next(new Error('Invalid request body for create Loan'));
+        }
         if (valuation <= 0 || principal <= 0 || apr <= 0 || duration <= 0) {
             res.status(400);
             return next(new Error('Invalid request body for create Loan'));
         }
 
         try {
+            const nft = await NFT.findOneAndUpdate({
+                _id:  nftID,
+            },{
+                status: 'listing',
+            })
+
             const newLoan = new Loan({
+                nft: nftID,
+                loanID,
                 valuation,
                 principal,
+                principalType,
+                principalAddress,
                 apr,
                 duration,
                 repayment: principal * (1 + apr / 100 * duration / 365),
                 borrower: user.id,
                 status: 'pending'
             })
-            newLoan.save()
+            await newLoan.save()
 
             res.status(201).json(newLoan)
         } catch (error) {
