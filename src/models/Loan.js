@@ -34,6 +34,10 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    durationType: {
+        type: String,
+        required: true,
+    },
     repayment: {
         type: Number,
         required: true,

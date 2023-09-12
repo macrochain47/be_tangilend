@@ -24,7 +24,7 @@ const NFTSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['default', 'on-loan'],
+        enum: ['default', 'listing', 'on-loan'],
     }
 }, {
     timestamps: true

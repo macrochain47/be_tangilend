@@ -27,6 +27,7 @@ class NFTController {
                 status: 'default'
             })
 
+
             await newNFT.save()
             res.status(201).json(newNFT)
         } catch {

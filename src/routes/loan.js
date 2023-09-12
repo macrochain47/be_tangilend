@@ -9,11 +9,14 @@ router.get('/all', LoanController.getAllLoanPending)
 router.get('/statistics', LoanController.getStatistics)
 
 router.post('/create', verifyToken, LoanController.createLoan)
-router.post('/startLoan', verifyToken, LoanController.startLoan)
+router.post('/start', verifyToken, LoanController.startLoan)
 
-router.post('/finalizeLoan', verifyToken, LoanController.finalizeLoan)
+router.post('/finalize', verifyToken, LoanController.finalizeLoan)
 
 router.get('/myLend', verifyToken, LoanController.getMyLend)
 router.get('/myBorrow', verifyToken, LoanController.getMyBorrow)
+
+router.get('/:id', LoanController.getLoan)
+
 
 export default router
