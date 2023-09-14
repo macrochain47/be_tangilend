@@ -1,6 +1,6 @@
 
 import express from 'express'
-import LoanController from '../controllers/LoanController'
+import LoanController from '../controllers/LoanController.js'
 import { verifyToken } from '../middlewares' 
 
 const router = express.Router()
