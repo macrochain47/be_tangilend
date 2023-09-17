@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js'; 
-import {getById} from '../repositories/index.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -22,7 +21,7 @@ export const verifyToken = (req, res, next) => {
                 res.status(403)
                 return next(err)
             }
-            const user = await getById(User, decoded.id);
+            const user = await User.findById(decoded.id);
             req.user = {
                 id: user._id.toString(),
                 address: user.address,

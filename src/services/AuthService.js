@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
-import { getOne, create } from "../repositories/index.js";
 import jwt from "jsonwebtoken";
 import provider from "../config/provider.js";
 const providerDefault = provider[1001];
@@ -8,9 +7,8 @@ const providerDefault = provider[1001];
 class AuthService {
 
     register = async(address) => {
-        const newUser = await create(User, {
-            address
-        });
+        const newUser = new User({address})
+        await newUser.save();
         return newUser;
     }
 
@@ -25,9 +23,7 @@ class AuthService {
             };
         }
 
-        let user = await getOne(User, {
-            address
-        });
+        let user = await User.findOne({ address});
 
         if(!user) {
             user = await this.register(address);
