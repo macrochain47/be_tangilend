@@ -23,12 +23,10 @@ app.use(cors({
 }))
 app.use(cookies(process.env.COOKIE_SECRET))
 /******************************************************************************/
-
 //Connect to the database and start the server
 connectApp(app)
 //routing for application
 route(app)
-
 //ERROR Handler middleware
 app.use(notFound)
 app.use(errorHandler)

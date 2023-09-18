@@ -4,22 +4,35 @@ const offerSchema = new mongoose.Schema({
     loan: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Loan",
-        required: true,
     },
-    type: {
+    offerID: {
         type: String,
-        enum: ['loan', 'extend'],
-        default: 'loan',
     },
     principal: {
         type: Number,
+        required: true,
+    },
+    principalType: {
+        type: String,
+        required: true,
+    },
+    principalAddress: {
+        type: String,
         required: true,
     },
     apr: {
         type: Number,
         required: true,
     },
-    term: {
+    duration: {
+        type: Number,
+        required: true,
+    },
+    durationType: {
+        type: String, 
+        required: true,
+    },
+    repayment: {
         type: Number,
         required: true,
     },
@@ -30,7 +43,7 @@ const offerSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'accepted'],
+        enum: ['pending', 'accepted', 'cancelled'],
         default: 'pending',
         required: true
     },
@@ -38,5 +51,5 @@ const offerSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const Offer = mongoose.model('Offer', OfferSchema)
+const Offer = mongoose.model('Offer', offerSchema)
 export default Offer

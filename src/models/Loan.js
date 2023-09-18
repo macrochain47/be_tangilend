@@ -1,46 +1,23 @@
 import mongoose from "mongoose";
 
 const loanSchema = new mongoose.Schema({
-    nft: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "NFT",
-        required: true,
-    },
     loanID: {
         type: String,
         required: true,
     },
-    valuation: {
-        type: Number,
+    asset: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Asset",
         required: true,
     },
-    principal: {
-        type: Number,
+    defaultOffer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Offer",
         required: true,
     },
-    principalType: {
-        type: String,
-        required: true,
-    },
-    principalAddress: {
-        type: String,
-        required: true,
-    },
-    apr: {
-        type: Number,
-        required: true,
-    },
-    duration: {
-        type: Number,
-        required: true,
-    },
-    durationType: {
-        type: String,
-        required: true,
-    },
-    repayment: {
-        type: Number,
-        required: true,
+    acceptedOffer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Offer",
     },
     borrower: {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,7 +30,7 @@ const loanSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'on-loan', 'overdue', 'completed', 'cancelled'],
+        enum: ['pending', 'on-loan', 'overdue', 'completed', 'cancelled', 'forfeited'],
         default: 'pending',
         required: true
     },
