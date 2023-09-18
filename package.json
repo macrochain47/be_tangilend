@@ -1,5 +1,5 @@
 {
-  "name": "loyalty_point_exchange_backend",
+  "name": "tangilend_fe",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,18 +14,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@types/ethereumjs-tx": "^2.0.0",
-    "hardhat": "^2.15.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
-    "firebase-admin": "^11.9.0",
     "joi": "^17.9.2",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.0",
@@ -34,5 +29,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "web3": "^1.8.0"
+  },
+  "engines": {
+    "node": ">=18.15.0"
   }
 }
