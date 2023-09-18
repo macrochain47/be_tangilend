@@ -11,7 +11,10 @@ class UserController {
         }
 
         try {
-            const myLoan = await Loan.find({lender: user.id}).populate({path: 'collateral', select: '_id tokenID  uri tokenName image valuation'})
+            const myLoan = await Loan.find({lender: user.id})
+                .populate({path: 'asset', select: '_id tokenID uri tokenName image valuation'})
+                .populate({path: 'defaultOffer', select: '_id principal principalType principalAddress apr duration durationType repayment status'})
+                .populate({path: 'acceptedOffer', select: '_id principal principalType principalAddress apr duration durationType repayment status'})
             res.status(200).json(myLoan);
         } catch (error) {
             next(error)
@@ -29,8 +32,11 @@ class UserController {
         }
 
         try {
-            const myLoan = await Loan.find({borrower: user.id}).populate({path: 'collateral', select: '_id tokenID uri tokenName image valuation'})
-            res.status(200).json(myLoan);
+            const myLoan = await Loan.find({borrower: user.id})
+                .populate({path: 'asset', select: '_id tokenID uri tokenName image valuation'})
+                .populate({path: 'defaultOffer', select: '_id principal principalType principalAddress apr duration durationType repayment status'})
+                .populate({path: 'acceptedOffer', select: '_id principal principalType principalAddress apr duration durationType repayment status'})
+                res.status(200).json(myLoan);
         } catch (error) {
             next(error)
         }

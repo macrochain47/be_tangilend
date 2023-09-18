@@ -4,7 +4,9 @@ const offerSchema = new mongoose.Schema({
     loan: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Loan",
-        required: true,
+    },
+    offerID: {
+        type: String,
     },
     principal: {
         type: Number,

@@ -5,7 +5,7 @@ const loanSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    collateral: {
+    asset: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Asset",
         required: true,
@@ -16,7 +16,8 @@ const loanSchema = new mongoose.Schema({
         required: true,
     },
     acceptedOffer: {
-        type: String,   
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Offer",
     },
     borrower: {
         type: mongoose.Schema.Types.ObjectId,

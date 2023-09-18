@@ -1,5 +1,5 @@
 import Asset from "../models/Asset.js";
-
+import User from '../models/User.js'
 
 class AssetController {
     grantAsset = async (req, res, next) => {
@@ -19,13 +19,13 @@ class AssetController {
                 return next(new Error('Invalid request body for create Asset'));
             }
 
-
+            const myUser = await User.findOne({address: user})
 
             const newAsset = new Asset({
                 tokenID,
                 uri,
                 tokenName,
-                user,
+                user: myUser._id,
                 image,
                 valuation,
                 status: 'not-activated',
@@ -34,31 +34,34 @@ class AssetController {
             await newAsset.save()
             res.status(201).json(newAsset)
         } catch (error) {
-            next(error);
+            console.log(error);
         }
     }
 
+
     addAsset = async (req, res, next) => {
+        const {
+            tokenID,
+            uri,
+            tokenName,
+            user,
+            image,
+            valuation,
+        } = req.body;
+        
+        if (valuation <= 0 || !tokenID || !tokenName || !valuation || !req.user.id || !image) {
+            res.status(400);
+            return next(new Error('Invalid request body for create Asset'));
+        }
+            
         try {
-            const {
-                tokenID,
-                uri,
-                tokenName,
-                user,
-                image,
-                valuation,
-            } = req.body;
+            const myUser = await User.findOne({address: user})
 
-
-            if (valuation <= 0 || !tokenID || !tokenName || !valuation || !req.user.id || !image) {
-                res.status(400);
-                return next(new Error('Invalid request body for create Asset'));
-            }
             const newAsset = new Asset({
                 tokenID,
                 uri,
                 tokenName,
-                user: user,
+                user: myUser._id,
                 image,
                 valuation,
                 status: 'default'

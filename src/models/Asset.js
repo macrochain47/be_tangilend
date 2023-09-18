@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const collateralSchema = new mongoose.Schema({
+const assetSchema = new mongoose.Schema({
     tokenID: {
         type: Number,
         required: true,
@@ -37,5 +37,5 @@ const collateralSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const Collateral = mongoose.model('Collateral', collateralSchema)
-export default Collateral
+const Asset = mongoose.model('Asset', assetSchema)
+export default Asset
