@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
 
-const NFTSchema = new mongoose.Schema({
+const assetSchema = new mongoose.Schema({
     tokenID: {
         type: Number,
+        required: true,
+    },
+    uri: {
+        type: String,
         required: true,
     },
     tokenName: {
@@ -24,11 +28,14 @@ const NFTSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['default', 'listing', 'on-loan'],
+        enum: ['not-activated','default', 'listing', 'on-loan'],
+    },
+    signatura: {
+        type: String,
     }
 }, {
     timestamps: true
 })
 
-const NFT = mongoose.model('NFT', NFTSchema)
-export default NFT
+const Asset = mongoose.model('Asset', assetSchema)
+export default Asset
